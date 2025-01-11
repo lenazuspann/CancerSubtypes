@@ -28,7 +28,7 @@ def load_data(add_labels: bool=False):
 # parameters:
     # df_joined: pd.Dataframe, result of the above function with add_labels=True
 def get_data_overview(df_joined: pd.DataFrame):
-    df_summary = df_joined[['Class']].reset_index(names='Percentage').groupby(by=['Class']).count().applymap(lambda x: x/df_joined.shape[0])
+    df_summary = df_joined[['Class']].reset_index(names='Percentage').groupby(by=['Class']).count().map(lambda x: x/df_joined.shape[0])
     df_summary['description'] = df_summary.apply(lambda x: dict_class_description[x.name], axis=1)
     df_summary['only zero-valued attributes'] = df_summary.apply(
         lambda x: (df_joined.loc[df_joined['Class'] == x.name].loc[:, (df_joined.loc[df_joined['Class'] == x.name] == 0).all(
